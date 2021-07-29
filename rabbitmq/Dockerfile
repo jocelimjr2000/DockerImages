@@ -5,6 +5,7 @@ FROM rabbitmq:3.9.0-management
 RUN apt-get update -y
 RUN apt-get upgrade -y
 RUN apt-get install -y --no-install-recommends \
+    nano \
     iputils-ping \
     net-tools
 
