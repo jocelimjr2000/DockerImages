@@ -1,5 +1,5 @@
 # Base image
-FROM jocelimjr/php8_oci8:1.0
+FROM jocelimjr/php8-oci8:1.0
 
 # Apache - default public project folder
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
