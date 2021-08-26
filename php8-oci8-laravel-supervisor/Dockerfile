@@ -4,12 +4,14 @@ FROM jocelimjr/php8-oci8-laravel:1.0
 # install dependencies
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y --no-install-recommends \
-    supervisor
+RUN apt-get install -y supervisor
 
-# Supervisor
+RUN mkdir -p /var/log/supervisor
+RUN touch /var/run/supervisor.sock
+RUN chmod 777 /var/run/supervisor.sock
+
 ADD supervisord.conf /etc/supervisor/supervisord.conf
 
-EXPOSE 80
+EXPOSE 22 80
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/usr/bin/supervisord"]
