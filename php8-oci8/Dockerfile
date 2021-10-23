@@ -99,11 +99,11 @@ ENV LD_LIBRARY_PATH  /opt/oracle/instantclient_12_1:${LD_LIBRARY_PATH}
     
 # Install Oracle extensions
 RUN echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-3.0.1 \ 
-      && docker-php-ext-enable \
-               oci8 \ 
-       && docker-php-ext-configure pdo_oci --with-pdo-oci=instantclient,/opt/oracle/instantclient_12_1,12.1 \
-       && docker-php-ext-install \
-               pdo_oci 
+        && docker-php-ext-enable oci8 \ 
+        && docker-php-ext-configure pdo_oci --with-pdo-oci=instantclient,/opt/oracle/instantclient_12_1,12.1 \
+        && docker-php-ext-install pdo_oci \
+        && echo /opt/oracle/instantclient_12_1/ > /etc/ld.so.conf.d/oracle-insantclient.conf \
+        && ldconfig
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
