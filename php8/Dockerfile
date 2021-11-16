@@ -12,8 +12,8 @@ RUN /bin/echo -e "LANG=\"en_US.UTF-8\"" > /etc/default/local
 # Folder owner
 RUN chown -R www-data:www-data /var/www/html
 
-# Active mod_rewrite and mod_headers (.htaccess and extra headers)
-RUN a2enmod rewrite headers
+# Active mod_rewrite, mod_headers and ssl (.htaccess and extra headers)
+RUN a2enmod rewrite headers ssl
 
 # Install dependencies
 RUN apt-get update -y
@@ -42,6 +42,16 @@ RUN apt-get install -y --no-install-recommends \
     iputils-ping \
     git \
     net-tools 
+
+# Add Configuration
+ADD 000-default.conf /etc/apache2/sites-enabled/000-default.conf
+
+# Create selfsigned certificate
+RUN openssl req -x509 -nodes -days 36500 \
+    -subj  "/C=BR/ST=PR/O=myorg/CN=localhost" \
+    -newkey rsa:2048 \
+    -keyout /etc/ssl/private/myprivkey.key \
+    -out /etc/ssl/certs/mycert.crt;
 
 # memcached
 RUN pecl install memcached-3.1.5
@@ -93,3 +103,6 @@ ENV APACHE_RUN_DIR /var/run/apache2
 ENV APACHE_LOCK_DIR /var/lock/apache2
 
 RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
+
+EXPOSE 80
+EXPOSE 443
