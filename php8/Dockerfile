@@ -1,5 +1,5 @@
 # Base image
-FROM php:8.0.8-apache
+FROM php:8.0.13-apache
 
 # Server name
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
@@ -41,7 +41,8 @@ RUN apt-get install -y --no-install-recommends \
     libaio1 \
     iputils-ping \
     git \
-    net-tools 
+    net-tools \
+    openssh-server
 
 # Add Configuration
 ADD 000-default.conf /etc/apache2/sites-enabled/000-default.conf
@@ -52,6 +53,9 @@ RUN openssl req -x509 -nodes -days 36500 \
     -newkey rsa:2048 \
     -keyout /etc/ssl/private/myprivkey.key \
     -out /etc/ssl/certs/mycert.crt;
+
+RUN echo "StrictHostKeyChecking=no" >> /etc/ssh/ssh_config
+RUN mkdir ~/.ssh
 
 # memcached
 RUN pecl install memcached-3.1.5
