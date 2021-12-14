@@ -12,7 +12,12 @@ if [ "${PROJECT_AUTODEPLOY}" = 'yes' ]; then
 fi
 
 if [ "${PROJECT_MIGRATE}" = 'yes' ]; then
+    cd /var/www/html
     php artisan migrate
+fi
+
+if [ "${PROJECT_CMD}" ]; then
+    eval "$PROJECT_CMD"
 fi
 
 docker-php-entrypoint $@
