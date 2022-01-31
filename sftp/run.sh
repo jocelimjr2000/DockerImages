@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # Build default images
-docker build -t jocelimjr/sftp:1.0 ./
+docker build -t jocelimjr/sftp:1.1 ./
