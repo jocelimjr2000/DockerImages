@@ -1,6 +1,9 @@
 # Base image
 FROM php:8.0.13-apache
 
+# Use the default production configuration
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
 # Server name
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
@@ -136,5 +139,14 @@ ENV APACHE_LOCK_DIR /var/lock/apache2
 
 RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
 
+# Load entrypoint script
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod 777 /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+WORKDIR /var/www/html
+
 EXPOSE 80
 EXPOSE 443
+
+CMD ["apache2-foreground"]
