@@ -1,5 +1,5 @@
 # Base image
-FROM jocelimjr/php:1.1-laravel
+FROM jocelimjr/php:1.2-laravel
 
 # Install dependencies
 RUN apt-get update -y

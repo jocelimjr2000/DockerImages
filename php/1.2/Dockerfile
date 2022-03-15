@@ -1,8 +1,8 @@
 # Base image
 FROM php:8.0.13-apache
 
-# Use the default production configuration
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+# Use the custom configuration
+COPY php.ini "$PHP_INI_DIR/php.ini"
 
 # Server name
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf

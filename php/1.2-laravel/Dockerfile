@@ -1,5 +1,5 @@
 # Base image
-FROM jocelimjr/php:1.1
+FROM jocelimjr/php:1.2
 
 # Apache - default public project folder
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
