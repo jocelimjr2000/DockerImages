@@ -69,20 +69,20 @@ RUN pecl install mcrypt-1.0.4
 RUN docker-php-ext-enable mcrypt
 
 # configure, install and enable all php packages
-RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp
-RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
-RUN docker-php-ext-configure mysqli --with-mysqli=mysqlnd
-RUN docker-php-ext-configure intl
-RUN docker-php-ext-configure zip
-
-RUN docker-php-ext-install -j$(nproc) opcache
-RUN docker-php-ext-install -j$(nproc) pdo_mysql
-RUN docker-php-ext-install -j$(nproc) mysqli
-RUN docker-php-ext-install -j$(nproc) pdo
-RUN docker-php-ext-install -j$(nproc) gd
-RUN docker-php-ext-install -j$(nproc) intl
-RUN docker-php-ext-install -j$(nproc) zip
-RUN docker-php-ext-install -j$(nproc) xml
+RUN set -eux; \
+	docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp; \
+	docker-php-ext-configure intl; \
+	docker-php-ext-configure mysqli --with-mysqli=mysqlnd; \
+	docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd; \
+	docker-php-ext-configure zip; \
+	docker-php-ext-install -j "$(nproc)" \
+		gd \
+		intl \
+		mysqli \
+		opcache \
+		pdo_mysql \
+		zip
+        
 # RUN docker-php-ext-install mbstring
 RUN docker-php-ext-install curl
 RUN docker-php-ext-install tokenizer
